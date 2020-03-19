@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title><h:outputText value="#Hellouda"/></title>
+</h:head>
+<h:body>
+	<h1>Alumno</h1>
+	<p:commandButton action="profesor" value="profesores"/><p:commandButton action="alumno" value="alumnos"/>
+	<h:form id="form">
+		<p:dataTable 
+		var="al" 
+		value="#{alumnoController.alumnos}"
+		selectionMode="single"
+		selection="#{alumnoController.selectedAlumno}"
+		rowKey="#{al.id}">
+		
+			<p:ajax event="rowSelect"  oncomplete="PF('dlg').show();" update=":form:modalA"/>
+		
+			<p:column headerText="id">
+				<f:facet name="header">
+					<h:outputText value="ID" />
+				</f:facet>
+				<h:outputText value="#{al.id}" />
+    		</p:column>
+    	
+    		<p:column headerText="nombre">
+    			<f:facet name="header">
+					<h:outputText value="Nombre" />
+				</f:facet>
+        		<h:outputText value="#{al.nombre}" />
+    		</p:column>
+	</p:dataTable>
+	<p:dialog id="modalA" header="Datos Alumno: #{alumnoController.selectedAlumno.id}" widgetVar="dlg" modal="true" height="100" maximizable="false" minimizable="false">
+    		<h:outputText value="Nombre: #{alumnoController.selectedAlumno.nombre}" /><br/>
+    		<h:outputText value="Sexo: #{alumnoController.selectedAlumno.sexo}" /><br/>
+    		<h:outputText value="Edad: #{alumnoController.selectedAlumno.edad}" /><br/>
+    		<h:outputText value="Profesores  :" /><br/>
+    		<p:repeat value="#{alumnoController.profesores}" var="p">
+    			<h:outputText value="#{p.nombre}" /><br/>
+    		</p:repeat>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>
